@@ -6,7 +6,8 @@ import matplotlib
 
 matplotlib.rcParams["figure.figsize"] = (20 , 10)
 
-
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
 #read the data and return a csv file
 
 
@@ -136,7 +137,28 @@ df2 = read_data()
 final_df = preprocess(df2)
 print(final_df.shape)
 
+X = final_df.drop('price' , axis = 'columns')
+X.head()
+y = final_df.price
 
+#Create model.
+X_train , X_test , y_train , y_test = train_test_split(X , y , test_size=0.2 , random_state=10)
+
+
+linear_classification  = LinearRegression()
+linear_classification.fit(X_train , y_train)
+print("Accuracy")
+print(linear_classification.score(X_test , y_test))
+
+
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import cross_val_score
+
+#Shuffle_Split will equally disrtribute the dataset
+cross_validation_metric = ShuffleSplit(n_splits=5 , test_size=0.2 , random_state=0)
+
+print("Accuracy across iterations")
+print(cross_val_score(LinearRegression() , X , y ,cv = cross_validation_metric ))
 
 
 
