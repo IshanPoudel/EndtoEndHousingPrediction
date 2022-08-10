@@ -160,7 +160,27 @@ cross_validation_metric = ShuffleSplit(n_splits=5 , test_size=0.2 , random_state
 print("Accuracy across iterations")
 print(cross_val_score(LinearRegression() , X , y ,cv = cross_validation_metric ))
 
+def predict_price(location , sqft , bath , bhk):
+    index_for_location = np.where(X.columns==location)[0][0]
 
+    x=np.zeros(len(X.columns))
+    x[0] = sqft
+    x[1] = bath
+    x[2] = bhk
+    if index_for_location>=0:
+        x[index_for_location] = 1
+
+    return linear_classification.predict([x])[0]
+
+#Save model
+import pickle
+
+with open('banglore_price_model.pickle' , 'wb') as f:
+    pickle.dump(linear_classification , f)
+#Check prediction
+
+print(predict_price('1st Phase JP Nagar' , 1000 , 2 , 3))
+print(predict_price('Indira Nagar' , 1000 , 2 , 3))
 
 
 
