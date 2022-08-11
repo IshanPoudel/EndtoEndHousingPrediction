@@ -1,3 +1,67 @@
 ''' Given the location , it creates a housing model and saves it. '''
 
-location = ['North Dallas']
+# location = ['North Dallas']
+from main import get_final_data_frame
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import numpy as np
+from sklearn.model_selection import ShuffleSplit
+from sklearn.model_selection import cross_val_score
+import pickle
+
+
+def predict_price(location, sqft, bath, bhk):
+    index_for_location = np.where(X.columns == location)[0][0]
+
+    x = np.zeros(len(X.columns))
+    x[0] = sqft
+    x[1] = bath
+    x[2] = bhk
+    if index_for_location >= 0:
+        x[index_for_location] = 1
+
+    return linear_classification.predict([x])[0]
+
+
+final_df = get_final_data_frame()
+X = final_df.drop('price', axis='columns')
+X.head()
+y = final_df.price
+
+# Create model.
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=10)
+
+linear_classification = LinearRegression()
+linear_classification.fit(X_train, y_train)
+print("Accuracy")
+print(linear_classification.score(X_test, y_test))
+
+
+
+# Shuffle_Split will equally disrtribute the dataset
+cross_validation_metric = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
+
+print("Accuracy across iterations")
+print(cross_val_score(LinearRegression(), X, y, cv=cross_validation_metric))
+
+
+
+
+
+
+
+with open('banglore_price_model.pickle', 'wb') as f:
+    pickle.dump(linear_classification, f)
+
+
+
+print(predict_price('1st Phase JP Nagar' , 1000 , 2 , 3))
+print(predict_price('Indira Nagar' , 1000 , 2 , 3))
+
+
+
+
+
+
+
+

@@ -7,9 +7,28 @@ matplotlib.rcParams["figure.figsize"] = (20 , 10)
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 #read the data and return a csv file
-
+import mysql.connector
+import config
 
 def read_data():
+    #
+    # db = mysql.connector.connect(host="localhost",
+    #                              user=config.user,
+    #                              passwd=config.password,
+    #                              db='real_estate_db_for_ml'
+    #                              )
+    # mycursor = db.cursor()
+    # mycursor.execute("select address , num_bed , num_bath , sq_ft , price from house_attributes LIMIT 10")
+    #
+    # output = mycursor.fetchall()
+    # for value in output:
+    #     print(value)
+
+    data = pd.DataFrame()
+
+
+
+    #get value
     df1 = pd.read_csv("Bengaluru_House_Data.csv")
 
     # drop
@@ -139,7 +158,7 @@ def get_final_data_frame():
 
 
 
-
+get_final_data_frame()
 # X = final_df.drop('price' , axis = 'columns')
 # X.head()
 # y = final_df.price
