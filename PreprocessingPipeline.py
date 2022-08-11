@@ -12,29 +12,31 @@ import config
 
 def read_data():
     #
-    # db = mysql.connector.connect(host="localhost",
-    #                              user=config.user,
-    #                              passwd=config.password,
-    #                              db='real_estate_db_for_ml'
-    #                              )
-    # mycursor = db.cursor()
-    # mycursor.execute("select address , num_bed , num_bath , sq_ft , price from house_attributes LIMIT 10")
+    db = mysql.connector.connect(host="localhost",
+                                 user=config.user,
+                                 passwd=config.password,
+                                 db='real_estate_db_for_ml'
+                                 )
+    mycursor = db.cursor()
+    mycursor.execute("select address , num_bed , num_bath , sq_ft , price from house_attributes ")
     #
     # output = mycursor.fetchall()
     # for value in output:
     #     print(value)
 
-    data = pd.DataFrame()
+    data = pd.DataFrame(mycursor.fetchall())
+    data.columns=['location' , 'size' , 'bath' , 'total_sqft' , 'price']
+    print(data)
 
 
 
-    #get value
-    df1 = pd.read_csv("Bengaluru_House_Data.csv")
+    # #get value
+    # df1 = pd.read_csv("Bengaluru_House_Data.csv")
+    #
+    # # drop
+    # df2 = df1.drop(['area_type', 'society', 'balcony', 'availability'], axis='columns')
 
-    # drop
-    df2 = df1.drop(['area_type', 'society', 'balcony', 'availability'], axis='columns')
-
-    return df2
+    return data
 
 def is_float(x):
     try:
@@ -56,6 +58,9 @@ def convert_sqft_to_num(x):
 
 def dimensionality_reduction(df5):
 
+    print("Before dimensionality reduction")
+    print(df5.shape)
+
     #If there are less than 10 location datapoints group them into other column.
     df5.location = df5.location.apply(lambda x: x.strip())
     # See locations with many datapoints.
@@ -63,7 +68,7 @@ def dimensionality_reduction(df5):
     # print("Number of unique locations")
     # print(location_stats)
 
-    location_stats_less_than_10 = location_stats[location_stats <= 10]
+    location_stats_less_than_10 = location_stats[location_stats <= 1]
 
     #if location in location_stats_less_than_10 put the location as other.
     df5.location = df5.location.apply(lambda x: 'other' if x in location_stats_less_than_10 else x)
@@ -104,36 +109,46 @@ def preprocess(df2):
     df3 = df2.dropna()
 
     # remove bhk , bedroom and any string from bedroom column
-    df3['bhk'] = df3['size'].apply(lambda x: int(x.split(" ")[0]))
+    #Don;t need as we only store integers.
+    # df3['bhk'] = df3['size'].apply(lambda x: int(str(str(x).split(" ")[0])))
+
+    df3['bhk'] = df3['size']
 
     df4 = df3.copy()
 
     #if sq.ft numbers are not just variables.
-    df4['total_sqft'] = (df4['total_sqft'].apply(convert_sqft_to_num))
+    # df4['total_sqft'] = (df4['total_sqft'].apply(convert_sqft_to_num))
+    # Only float is stored in total_sqft column.
 
     #Create price_per_sqft column for outlier detection
     df5 = df4.copy()
-    df5['price_per_sqft'] = df5['price'] * 100000 / df5['total_sqft']
+    df5['price_per_sqft'] = df5['price'] / df5['total_sqft']
 
+
+    #Set threshold to one as there is ont enough data
     df5 = dimensionality_reduction(df5)
+
 
     # Only keep those values for which the sq.ft by bedroom is more than 300
     df6 = df5[~(df5.total_sqft / df5.bhk < 300)]
 
+
     df7 = outlier_detection(df6)
 
     # For each location , if there are 2bhk bedrooms which are higher than 3bhk bedrooms for similar sqft area , remove those
+
     df8 = remove_bhk_outliers(df7)
 
     # Remove bathroom_outliers
 
-    df9 = df8[df8.bath < df8.bhk + 2]
-    print(df9.shape)
+    # df9 = df8[df8.bath < df8.bhk + 4]
+    df9=df8.copy()
+
 
     # drop features that are not needed .
 
     df10 = df9.drop(['size', 'price_per_sqft'], axis='columns')
-    print(df10.head(3))
+
 
     # One hot encode the data
     dummies = pd.get_dummies(df10.location)
@@ -142,10 +157,13 @@ def preprocess(df2):
     # Need to drop one of the dummy variable
     df11 = pd.concat([df10, dummies.drop('other', axis='columns')], axis='columns')
 
-    print(df11.head(2))
+
     # Drop the location variable
     df12 = df11.drop('location', axis='columns')
-    df12.head(2)
+
+    print("Final_count")
+    print(df12.shape)
+    print(df12.head(5))
 
     return df12
 

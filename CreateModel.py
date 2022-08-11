@@ -1,7 +1,7 @@
 ''' Given the location , it creates a housing model and saves it. '''
 
 # location = ['North Dallas']
-from main import get_final_data_frame
+from PreprocessingPipeline import get_final_data_frame
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import numpy as np
@@ -50,13 +50,13 @@ print(cross_val_score(LinearRegression(), X, y, cv=cross_validation_metric))
 
 
 
-with open('banglore_price_model.pickle', 'wb') as f:
+with open('redfin_price_model.pickle', 'wb') as f:
     pickle.dump(linear_classification, f)
 
-
-
-print(predict_price('1st Phase JP Nagar' , 1000 , 2 , 3))
-print(predict_price('Indira Nagar' , 1000 , 2 , 3))
+#
+#
+# print(predict_price('1st Phase JP Nagar' , 1000 , 2 , 3))
+# print(predict_price('Indira Nagar' , 1000 , 2 , 3))
 
 
 
