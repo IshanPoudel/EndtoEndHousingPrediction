@@ -1,6 +1,7 @@
 ''' Given the location , it creates a housing model and saves it. '''
 
 # location = ['North Dallas']
+# from PreprocessingPipeline import get_final_data_frame
 from PreprocessingPipeline import get_final_data_frame
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -24,6 +25,9 @@ def predict_price(location, sqft, bath, bhk):
 
 
 final_df = get_final_data_frame()
+#export dataframe to csv
+# final_df.to_csv('file_name.csv’)
+final_df.to_csv('Check.csv')
 X = final_df.drop('price', axis='columns')
 X.head()
 y = final_df.price
@@ -34,7 +38,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 linear_classification = LinearRegression()
 linear_classification.fit(X_train, y_train)
 print("Accuracy")
-print(linear_classification.score(X_test, y_test))
+print(linear_classification.score(X_test.values, y_test))
 
 
 
@@ -48,20 +52,20 @@ print(cross_val_score(LinearRegression(), X, y, cv=cross_validation_metric))
 
 
 
-
+#Store the model
 
 with open('redfin_price_model.pickle', 'wb') as f:
     pickle.dump(linear_classification, f)
 
-#
-#
-# print(predict_price('1st Phase JP Nagar' , 1000 , 2 , 3))
-# print(predict_price('Indira Nagar' , 1000 , 2 , 3))
 
+#Find a way to store the columns
+import json
 
-
-
-
+columns = {
+    'data_columns' : [col.lower() for col in final_df.columns]
+}
+with open('location_columns', 'w') as f:
+    f.write(json.dumps(columns))
 
 
 

@@ -128,7 +128,7 @@ def store_master_links():
                 if check_if_present:
                     print("Up to Date")
                     print(house + "already in the table")
-                    quit()
+                    return
 
 
 

@@ -26,3 +26,4 @@ mycursor.execute("CREATE TABLE house_link(  link VARCHAR(1000)  , houseID int PR
 
 mycursor.execute("CREATE TABLE HOUSE_ATTRIBUTES(house_id int , address VARCHAR(1000) , num_bed int , num_bath double, sq_ft double(10,2) , price double(10,2))")
 
+#Added stuff t
