@@ -64,7 +64,7 @@ import json
 columns = {
     'data_columns' : [col.lower() for col in final_df.columns]
 }
-with open('location_columns', 'w') as f:
+with open('location_columns.json', 'w') as f:
     f.write(json.dumps(columns))
 
 
