@@ -2,23 +2,9 @@
 _each_house function and stores it in the house_attributes database.
 Can use threading if specified on the config file.'''
 
-
-import config
-from bs4 import BeautifulSoup
-
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import *
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 import config
 import time
 import traceback
-import re
 import mysql.connector
 import threading
 from threading import Lock

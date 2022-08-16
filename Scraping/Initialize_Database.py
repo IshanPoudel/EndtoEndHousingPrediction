@@ -2,19 +2,19 @@
 import mysql.connector
 import config
 
-db = mysql.connector.connect(host="localhost" ,user = config.user , passwd= config.password)
+db = mysql.connector.connect(host="localhost", user = config.user, passwd= config.password)
 
 mycursor = db.cursor()
 
 mycursor.execute("DROP DATABASE IF EXISTS REAL_ESTATE_DB_FOR_ML")
 mycursor.execute("CREATE DATABASE REAL_ESTATE_DB_FOR_ML")
 
-db = mysql.connector.connect(host="localhost" ,
-    user = config.user ,
-    passwd= config.password,
-    db='real_estate_db_for_ml'
+db = mysql.connector.connect(host="localhost",
+                             user = config.user,
+                             passwd= config.password,
+                             db='real_estate_db_for_ml'
 
-    )
+                             )
 
 mycursor = db.cursor()
 

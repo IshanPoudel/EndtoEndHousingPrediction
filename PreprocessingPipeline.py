@@ -1,14 +1,12 @@
 import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
 
 import matplotlib
 matplotlib.rcParams["figure.figsize"] = (20 , 10)
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 #read the data and return a csv file
 import mysql.connector
-import config
+from Scraping import config
+
 
 def read_data():
     #
