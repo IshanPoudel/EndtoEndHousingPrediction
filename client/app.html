@@ -5,10 +5,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src ="app.js"> </script>
     <link rel = "stylesheet" href="app.css">
+    <link rel = "stylesheet" href="app.css">
 
 </head>
 
 <body>
+
+<a href="#"><img id="logo" src="https://filecache.mediaroom.com/mr5mr_zillow/204622/Zillow_Wordmark_Blue_RGB.jpg"></a>
+
+
 
 <div class="img"></div>
 
@@ -45,8 +50,27 @@
         <input type="radio" id = "radio-bath-5" name = 'uiBHK' value = 5/>
         <label for="radio-bath-5">5</label>
     </div>
-</form>
+        <!-- Have selection for the location-->
+    <div>
+        <h2> Location </h2>
 
+    </div>
+    <div>
+        <select class = "location" name ="chooseLocation" id="uiLocations">
+            <option value="" disabled="disabled" selected="selected"> Choose a location from the dropdown box</option>
+            <option> Dallas , TX</option>
+            <option> Arlington , TX</option>
+        </select>
+    </div>
+
+    <!--    Have a button to submit the value   -->
+    <button class="submit" onclick="onClickGetPrice()" type="button"> Submit</button>
+    <div id = "uiEstimatedPrice" class="result">
+        <h2> </h2>
+    </div>
+
+
+</form>
 
 </body>
 </html>
