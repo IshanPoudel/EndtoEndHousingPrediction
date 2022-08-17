@@ -1,5 +1,9 @@
 import json
 import pickle
+from util import get_locations
+from util import load_artifacts
+from util import get_estimated_price
+
 
 from flask import Flask , request , jsonify
 
@@ -12,34 +16,36 @@ def hello():
     return "Hi"
 
 
-def get_locations():
-    ''' From the columns.json file , it gets the location name of each location(zipcode) in our csv file'''
-    print("The locations are")
-    print(__locations)
+@app.route('/get_location_name' , methods=['POST'])
+def prediction():
 
+    locations = get_locations()
+    #Create response to send
+    response = jsonify({
+        'locations' : locations
+    })
 
-def load_artifacts():
-    '''Loads our machine learning model '''
+    response.headers.add('Access-Control-Allow-Origin' , '*')
 
-    print("Loading the artifacts")
-    global __data_columns
-    global __model
-
-
-    #read the file
-    with open('Artifacts/location_columns.json' , 'r') as f:
-        __data_columns = json.load(f)['data_columns']
-        #starting with column number 3 you can get the values.
-        __locations = __data_columns[3:]
-
-    with open('Artifacts/redfin_price_model.pickle' , 'rb') as f:
-        __model = pickle.load(f)
-
-    print('Artifacts are loaded')
+    return response
 
 
 
+@app.route('/get_prediction' , methods=['POST'])
+def predict_home_price():
+    total_sqft = float(request.form['total_sqft'])
+    location = float(request.form['location'])
+    bhk = float(request.form['bhk'])
+    bath = float(request.form['bath'])
 
+    response = jsonify({
+        'estimated_price' : get_estimated_price(location , bath , total_sqft , bhk)
+
+    })
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
 
 
 

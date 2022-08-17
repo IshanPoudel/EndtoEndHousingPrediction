@@ -174,7 +174,6 @@ def get_final_data_frame():
 
 
 
-get_final_data_frame()
 # X = final_df.drop('price' , axis = 'columns')
 # X.head()
 # y = final_df.price

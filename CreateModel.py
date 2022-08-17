@@ -15,8 +15,8 @@ def predict_price(location, sqft, bath, bhk):
     index_for_location = np.where(X.columns == location)[0][0]
 
     x = np.zeros(len(X.columns))
-    x[0] = sqft
-    x[1] = bath
+    x[0] = bath
+    x[1] = sqft
     x[2] = bhk
     if index_for_location >= 0:
         x[index_for_location] = 1
@@ -29,7 +29,8 @@ final_df = get_final_data_frame()
 # final_df.to_csv('file_name.csv’)
 final_df.to_csv('Check.csv')
 X = final_df.drop('price', axis='columns')
-X.head()
+
+print(X.head())
 y = final_df.price
 
 # Create model.
@@ -54,7 +55,7 @@ print(cross_val_score(LinearRegression(), X, y, cv=cross_validation_metric))
 
 #Store the model
 
-with open('redfin_price_model.pickle', 'wb') as f:
+with open('server/Artifacts/redfin_price_model.pickle', 'wb') as f:
     pickle.dump(linear_classification, f)
 
 
@@ -62,10 +63,11 @@ with open('redfin_price_model.pickle', 'wb') as f:
 import json
 
 columns = {
-    'data_columns' : [col.lower() for col in final_df.columns]
+    'data_columns' : [col.lower() for col in X.columns]
 }
-with open('location_columns.json', 'w') as f:
+with open('server/Artifacts/location_columns.json', 'w') as f:
     f.write(json.dumps(columns))
 
 
 
+print(predict_price('Carrollton TX 75007' ,  2040 , 2,  4))
