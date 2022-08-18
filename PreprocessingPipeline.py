@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.rcParams["figure.figsize"] = (20 , 10)
 #read the data and return a csv file
 import mysql.connector
-from Scraping import config
+import config
 
 
 def read_data():

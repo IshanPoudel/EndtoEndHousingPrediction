@@ -67,7 +67,7 @@ if __name__ == '__main__':
     load_artifacts()
     print(get_locations())
     print(get_estimated_price('mesquite TX 75150' ,  3 , 2040 , 4))
-    print(get_estimated_price('Other' , 2 , 2040 , 4))
+    print(get_estimated_price('dallas tx 75208' , 4 , 3000 , 4))
     print(get_estimated_price('Carrollton TX 75007' ,  3 , 2040 , 4))
 
 

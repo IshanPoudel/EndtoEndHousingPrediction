@@ -3,6 +3,7 @@ Run get_house_attributes()
 '''
 
 
+import sys
 
 from bs4 import BeautifulSoup
 

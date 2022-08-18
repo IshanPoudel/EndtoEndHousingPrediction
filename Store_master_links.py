@@ -123,7 +123,7 @@ def store_master_links():
                     print("Up to Date")
                     print(house + "already in the table")
                     return
-
+  
 
 
 

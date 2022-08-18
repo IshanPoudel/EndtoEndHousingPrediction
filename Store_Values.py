@@ -1,6 +1,8 @@
 ''' Grabs each house_link from the master_link database , calls the get_values_from
 _each_house function and stores it in the house_attributes database.
 Can use threading if specified on the config file.'''
+import sys
+sys.path.append('/Scraping')
 
 import config
 import time
@@ -10,8 +12,10 @@ import threading
 from threading import Lock
 from random import randint
 
-#import function from get_values_fr0m_each_house
+
+#import function from get_values_from_each_house
 from Get_values_from_each_house import get_house_attributes
+
 
 
 db = mysql.connector.connect(host="localhost",
