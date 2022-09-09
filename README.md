@@ -20,6 +20,10 @@ Once sufficient information is stored on a database , the application automatica
 
 4) Run <code> Start_Scraping.py </code>
 
+   Snapshot of the scraping process.
+   
+   <img src = "https://github.com/IshanPoudel/EndtoEndHousingPrediction/blob/main/Assets/Snapshot.png" width = "600" height = "500">
+
 <h1> Configuring database </h1>
 
 1) In the <code> user</code> and <code>password</code> file in <code> config.py </code> specify the username and password of the local MySQL database. 
@@ -37,5 +41,22 @@ Once sufficient information is stored on a database , the application automatica
   
  
  <h1> Preprocessing the dataset </h1>
+ 
+ In <code> Preprocesing_pipeline.py</code> the data points are converted to a pandas dataframe. Standard datacleaning is applied including outlier reduction and dimensionality reduction.
+ 
+ <h1> Machine Learning , Saving the model , Deployment </h1>
+ 
+ From the processed data , a machine learning model is created in <code>CreateMode.py</code> and deployed in a flask server. 
+ 
+ <h1> Final Product </h1>
+ 
+ A interactive front end is created where a user can choose from the various locations inside their custom dataset and the output is presented on the screen. POST AND GET methods are used to talk to the flask server. 
+ 
+Picking from all unique location from our dataset. 
+<img src = "https://github.com/IshanPoudel/EndtoEndHousingPrediction/blob/main/Assets/Option.png" >
+
+<img src = "https://github.com/IshanPoudel/EndtoEndHousingPrediction/blob/main/Assets/Output.png">
+ 
+ 
  
    
